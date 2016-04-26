@@ -6,5 +6,7 @@
   "FullName": "",
   "Expenses": [{}],
   "NewExpenseTrigger$": 0,
-  "CurrentBalance": 0
+  "CurrentBalance": 0,
+  "CancelTrigger$": 0,
+  "DeleteAllTrigger$": 0
 }
