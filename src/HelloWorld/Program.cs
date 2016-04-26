@@ -26,6 +26,17 @@ namespace HelloWorld
                     };
                 }
             });
+
+            Application.Current.Use(new HtmlFromJsonProvider());
+            Application.Current.Use(new PartialToStandaloneHtmlProvider());
+
+            Handle.GET("/HelloWorld", () =>
+            {
+                Session.Ensure();
+
+                var person = Db.SQL<Person>("SELECT p FROM Person p").FirstOrDefault();
+                return new PersonJson { Data = person };
+            });
         }
     }
 }
