@@ -1,6 +1,6 @@
 <template>
     <template is="dom-bind">
-        <h1>Hey, {{model.FullName}}!</h1>
+        <h1>{{model.FullName}}'s expense list</h1>
 
         <fieldset>
             <label>First name:</label>
@@ -13,5 +13,19 @@
         </fieldset>
 
         <button value="{{model.SaveTrigger$::click}}" onmousedown="++this.value">Save</button>
+
+        <hr>
+
+        <template is="dom-repeat" items="{{model.Expenses}}">
+            <div>
+                <template is="imported-template" model="{{item}}" href$="{{item.Html}}"></template>
+            </div>
+        </template>
+
+        <button value="{{model.NewExpenseTrigger$::click}}" onmousedown="++this.value">Add new expense</button>
+
+        <hr>
+
+        <h2>Current Balance: {{model.CurrentBalance}}</h2>
     </template>
 </template>

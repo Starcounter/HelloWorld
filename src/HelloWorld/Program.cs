@@ -1,4 +1,5 @@
 ﻿using Starcounter;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace HelloWorld
@@ -8,6 +9,18 @@ namespace HelloWorld
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public IEnumerable<Expense> Expenses => 
+            Db.SQL<Expense>("SELECT e FROM Expense e WHERE e.Spender = ?", this);
+        public decimal CurrentBalance =>
+            Db.SQL<Expense>("SELECT e FROM Expense e WHERE e.Spender = ?", this).Sum(e => e.Amount);
+    }
+
+    [Database]
+    public class Expense
+    {
+        public Person Spender { get; set; }
+        public string Description { get; set; }
+        public decimal Amount { get; set; }
     }
 
     class Program
