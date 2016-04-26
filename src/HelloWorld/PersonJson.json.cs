@@ -16,6 +16,11 @@ namespace HelloWorld
             Transaction.Commit();
         }
 
+        void Handle(Input.CancelTrigger action)
+        {
+            Transaction.Rollback();
+        }
+
         void Handle(Input.NewExpenseTrigger action)
         {
             new Expense()
@@ -23,6 +28,12 @@ namespace HelloWorld
                 Spender = this.Data as Person,
                 Amount = 1
             };
+        }
+
+        void Handle(Input.DeleteAllTrigger action)
+        {
+            Db.SQL("DELETE FROM Expense WHERE Spender = ?", this.Data);
+            this.Expenses.Clear();
         }
     }
 }
