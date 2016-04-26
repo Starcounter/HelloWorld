@@ -76,6 +76,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExpenseJson.json.cs">
+      <DependentUpon>ExpenseJson.json</DependentUpon>
+    </Compile>
     <Compile Include="PersonJson.json.cs">
       <DependentUpon>PersonJson.json</DependentUpon>
     </Compile>
@@ -100,7 +103,13 @@
     </TypedJSON>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="wwwroot\HelloWorld\ExpenseJson.html" />
     <Content Include="wwwroot\HelloWorld\PersonJson.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypedJSON Include="ExpenseJson.json">
+      <Generator>MsBuild:Compile</Generator>
+    </TypedJSON>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(StarcounterBin)\Starcounter.MsBuild.targets" />
