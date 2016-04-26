@@ -13,6 +13,7 @@
         </fieldset>
 
         <button value="{{model.SaveTrigger$::click}}" onmousedown="++this.value">Save</button>
+        <button value="{{model.CancelTrigger$::click}}" onmousedown="++this.value">Cancel</button>
 
         <hr>
 
@@ -27,5 +28,6 @@
         <hr>
 
         <h2>Current Balance: {{model.CurrentBalance}}</h2>
+        <button value="{{model.DeleteAllTrigger$::click}}" onmousedown="++this.value">Delete all expenses</button>
     </template>
 </template>
