@@ -8,6 +8,18 @@ namespace HelloWorld
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public QueryResultRows<Expense> Expenses => 
+            Db.SQL<Expense>("SELECT e FROM Expense e WHERE e.Spender = ?", this);
+        public decimal CurrentBalance =>
+            Db.SQL<decimal>("SELECT SUM(e.Amount) FROM Expense e WHERE e.Spender = ?", this).First;
+    }
+
+    [Database]
+    public class Expense
+    {
+        public Person Spender { get; set; }
+        public string Description { get; set; }
+        public decimal Amount { get; set; }
     }
 
     class Program
