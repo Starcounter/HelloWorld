@@ -32,10 +32,13 @@ namespace HelloWorld
 
             Handle.GET("/HelloWorld", () =>
             {
-                Session.Ensure();
+                return Db.Scope(() =>
+                {
+                    Session.Ensure();
 
-                var person = Db.SQL<Person>("SELECT p FROM Person p").FirstOrDefault();
-                return new PersonJson { Data = person };
+                    var person = Db.SQL<Person>("SELECT p FROM Person p").FirstOrDefault();
+                    return new PersonJson { Data = person };
+                });
             });
         }
     }
