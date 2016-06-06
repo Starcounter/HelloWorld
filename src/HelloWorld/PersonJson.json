@@ -2,5 +2,6 @@
   "Html": "/HelloWorld/PersonJson.html",
   "FirstName$": "",
   "LastName$": "",
-  "SaveTrigger$": 0
+  "SaveTrigger$": 0,
+  "FullName": ""
 }
