@@ -32,7 +32,7 @@ namespace HelloWorld
                             <html lang=""en"">
                                 <head>
                                     <meta charset=""utf-8"">
-                                    <script src=""https://rawgit.com/alshakero/Palindrom/master/dist/palindrom.min.js""></script>
+                                    <script src=""https://rawgit.com/Palindrom/Palindrom/master/dist/palindrom-dom.min.js""></script>
                                     <link rel=""import"" href=""HelloWorld/sys/polymer/polymer-element.html"">
                                     <title>Polymer 2.0 HelloWorld</title>
                                 </head>
@@ -48,8 +48,7 @@ namespace HelloWorld
                                             <style>
                                                 div {{
                                                     margin: 5px
-                                                }}
-                    
+                                                }}                    
                                                 input {{
                                                     font-size: 1.2em;
                                                     padding: 5px;
@@ -59,11 +58,11 @@ namespace HelloWorld
                                             <h1>{{{{model.FullName}}}}</h1>
                                             <div>
                                                 <label>First name:</label>
-                                                <input value=""{{{{model.FirstName$::input}}}}"">
+                                                <input value=""{{{{model.FirstName$::input}}}}"" />
                                             </div>
                                             <div>
                                                 <label>Last name:</label>
-                                                <input value=""{{{{model.LastName$::input}}}}"">
+                                                <input value=""{{{{model.LastName$::input}}}}"" />
                                             </div>
                                             <button value=""{{{{model.Save$::click}}}}"" onmousedown=""++this.value"">Save</button>
                                             <button value=""{{{{model.Cancel$::click}}}}"" onmousedown=""++this.value"">Cancel</button>
@@ -84,14 +83,23 @@ namespace HelloWorld
                                                 super();
                                             }}
                                             connectedCallback() {{
+                                                /* here is the interesting part, `onStateReset` callback gives an object that is
+                                                 persistent between the server and the client, which is in this case is a Person object as you
+                                                 can see below. The server could send anything. */
+                                                
                                                 super.connectedCallback();
-                                                let that = this;
                                                 let defaultLocalVersionPath = ""/_ver#c$"";
                                                 let defaultRemoteVersionPath = ""/_ver#s"";
                                                 let palindrom = new Palindrom({{
-                                                    remoteUrl: ""http://localhost:8080/HelloWorld"", ot: true, localVersionPath: defaultLocalVersionPath,
-                                                    remoteVersionPath: defaultRemoteVersionPath, useWebSocket: true, callback: function (obj) {{
-                                                        that.model = obj;
+                                                    remoteUrl: ""{1}"", ot: true, localVersionPath: defaultLocalVersionPath,
+                                                    remoteVersionPath: defaultRemoteVersionPath, useWebSocket: true, onStateReset: obj => {{
+                                                        this.set('model', obj);
+                                                    }}, onRemoteChange: (changes) => {{
+                                                        /* this is the simplest implementation of `palindrom-client`.
+                                                        as you can see, I notify about the FullName, and you'll have to notify
+                                                        about anything that has changed using information from `changes` array. 
+                                                        */
+                                                        this.notifyPath('model.FullName');
                                                     }}
                                                 }});
                                             }}
